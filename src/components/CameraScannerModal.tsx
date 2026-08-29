@@ -99,17 +99,35 @@ export function CameraScannerModal({
             Html5QrcodeSupportedFormats.QR_CODE,
           ],
           verbose: false,
+          experimentalFeatures: {
+            useBarCodeDetectorIfSupported: true, // Uses native Google MLKit / Apple Vision hardware acceleration for instant decoding
+          },
         });
         scannerRef.current = html5QrCode;
 
+        // High-performance scanning config (25 FPS, wider scan zone)
         const config = {
-          fps: 10,
-          qrbox: { width: 240, height: 110 },
+          fps: 25,
+          qrbox: (viewfinderWidth: number, viewfinderHeight: number) => {
+            const minEdge = Math.min(viewfinderWidth, viewfinderHeight);
+            return {
+              width: Math.min(320, Math.floor(viewfinderWidth * 0.88)),
+              height: Math.min(160, Math.max(90, Math.floor(minEdge * 0.65))),
+            };
+          },
           aspectRatio: 1.77,
+          disableFlip: true,
+        };
+
+        const cameraConfig = {
+          facingMode: "environment",
+          focusMode: "continuous",
+          width: { min: 640, ideal: 1280 },
+          height: { min: 480, ideal: 720 },
         };
 
         await html5QrCode.start(
-          { facingMode: "environment" },
+          cameraConfig,
           config,
           (decodedText) => {
             if (isProcessingRef.current) return;
@@ -137,7 +155,7 @@ export function CameraScannerModal({
             setIsPaused(true);
           },
           () => {
-            // frame scanning (ignore)
+            // fast frame drop
           }
         );
       } catch (err: unknown) {
