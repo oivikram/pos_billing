@@ -60,7 +60,7 @@ export function StoreReceiptPaper({
         <h1 className="store-brand-title">VIKRAM STORE</h1>
         <p className="store-brand-sub">Retail Supermarket & FMCG Store</p>
         <p className="store-brand-domain">www.vikramstore.shop · billing@vikramstore.shop</p>
-        <p className="store-tax-ids">GSTIN: 27AABCV1234F1Z5 · FSSAI Lic: 11521012000452</p>
+        <p className="store-tax-ids">GSTIN: 27AABCV1234F1Z5 · TEL: +91 8591704117 · FSSAI Lic: 11521012000452</p>
         <div className="store-invoice-type">
           {isRefund ? "★ CASH REFUND VOUCHER ★" : "★ TAX INVOICE / RETAIL CASH MEMO ★"}
         </div>

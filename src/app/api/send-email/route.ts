@@ -131,7 +131,7 @@ export async function POST(req: Request) {
                   <a href="https://vikramstore.shop" style="color: #2563eb; text-decoration: none;">www.vikramstore.shop</a>
                 </div>
                 <div style="font-family: 'Courier New', Courier, monospace; font-size: 10px; color: #6b7280; margin-top: 3px;">
-                  GSTIN: 27AABCV1234F1Z5 · TEL: +91 98765 43210
+                  GSTIN: 27AABCV1234F1Z5 · TEL: +91 8591704117
                 </div>
 
                 <!-- Document Type Badge -->
