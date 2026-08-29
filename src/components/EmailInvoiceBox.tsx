@@ -102,7 +102,7 @@ export function EmailInvoiceBox({
   return (
     <div className="email-form-wrap">
       <label style={{ display: "block", font: "700 11px var(--mono)", textTransform: "uppercase", color: "#5f635f" }}>
-        📧 Send Invoice to Customer Email (Resend)
+        📧 Send Invoice to Customer Email
       </label>
       <form onSubmit={handleSend} className="email-input-row">
         <input
@@ -128,9 +128,6 @@ export function EmailInvoiceBox({
           </div>
           {status.type === "error" && (
             <div style={{ display: "flex", flexDirection: "column", gap: "6px", background: "#fbfaf4", border: "1px solid var(--line)", padding: "10px 12px", borderRadius: "3px" }}>
-              <span style={{ fontSize: "11px", color: "var(--muted)", fontFamily: "var(--mono)" }}>
-                💡 <b>Note on Resend:</b> In free test mode, Resend only delivers to your registered account email. To deliver directly to any customer inbox in background, verify your custom domain on Resend (resend.com/domains).
-              </span>
               <button
                 type="button"
                 onClick={handleFallbackDraft}
@@ -146,7 +143,7 @@ export function EmailInvoiceBox({
                   borderRadius: "2px",
                 }}
               >
-                ➔ Send via Email Client / Gmail (Instant Fallback)
+                ➔ Send via Email Client / Gmail (Fallback)
               </button>
             </div>
           )}
@@ -155,4 +152,3 @@ export function EmailInvoiceBox({
     </div>
   );
 }
-

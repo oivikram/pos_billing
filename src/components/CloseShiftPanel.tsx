@@ -66,7 +66,6 @@ export function CloseShiftPanel({
       totalTransactions: sales.length,
     };
 
-    // Direct sync to Supabase cloud database
     syncShiftToSupabase({
       id: shiftSummary.id,
       employee: shiftSummary.employee,
@@ -237,4 +236,3 @@ export function CloseShiftPanel({
     </div>
   );
 }
-

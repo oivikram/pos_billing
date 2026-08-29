@@ -114,7 +114,6 @@ export function HistoryPanel({
         <strong>history.</strong>
       </h2>
 
-      {/* Shift vs All History Tab Selector */}
       <div style={{ display: "flex", gap: "8px", margin: "14px 0 10px" }}>
         <button
           type="button"
@@ -238,4 +237,3 @@ export function HistoryPanel({
     </div>
   );
 }
-

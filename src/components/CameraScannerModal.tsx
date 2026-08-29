@@ -23,9 +23,7 @@ export function playBeepSound() {
     gain.connect(ctx.destination);
     osc.start();
     osc.stop(ctx.currentTime + 0.12);
-  } catch {
-    // audio context blocked
-  }
+  } catch {}
 }
 
 export function CameraScannerModal({
@@ -64,9 +62,7 @@ export function CameraScannerModal({
           .stop()
           .then(() => scannerRef.current?.clear())
           .catch(() => {});
-      } catch {
-        // ignore
-      }
+      } catch {}
     }
     onClose();
   };
@@ -101,7 +97,6 @@ export function CameraScannerModal({
         });
         scannerRef.current = html5QrCode;
 
-        // Reliable retail 1D & 2D barcode scanning config
         const config = {
           fps: 12,
           qrbox: { width: 260, height: 120 },
@@ -115,7 +110,6 @@ export function CameraScannerModal({
             if (isProcessingRef.current) return;
 
             const clean = decodedText.trim();
-            // Discard invalid / noisy string reads (must be at least 4 chars and valid characters)
             if (!clean || clean.length < 4 || !/^[\w\-\.\/:]+$/i.test(clean)) {
               return;
             }
@@ -142,9 +136,7 @@ export function CameraScannerModal({
 
             setIsPaused(true);
           },
-          () => {
-            // scanning frame
-          }
+          () => {}
         );
       } catch (err: unknown) {
         const msg = err instanceof Error ? err.message : String(err);
@@ -166,9 +158,7 @@ export function CameraScannerModal({
             .stop()
             .then(() => scannerRef.current?.clear())
             .catch(() => {});
-        } catch {
-          // ignore
-        }
+        } catch {}
       }
     };
   }, [isOpen]);
@@ -187,7 +177,6 @@ export function CameraScannerModal({
           maxHeight: "96vh",
         }}
       >
-        {/* Compact Header */}
         <div
           style={{
             display: "flex",
@@ -260,7 +249,6 @@ export function CameraScannerModal({
                 overflow: "hidden",
               }}
             />
-            {/* Guide overlay */}
             <div
               style={{
                 position: "absolute",
@@ -284,7 +272,6 @@ export function CameraScannerModal({
           </div>
         )}
 
-        {/* Scan Result Details & Quantity Stepper */}
         {lastItem && (
           <div
             style={{
@@ -389,7 +376,6 @@ export function CameraScannerModal({
           </div>
         )}
 
-        {/* Action Buttons */}
         <div style={{ display: "flex", gap: "8px", marginTop: "12px" }}>
           {isPaused ? (
             <button
@@ -443,4 +429,3 @@ export function CameraScannerModal({
     </div>
   );
 }
-

@@ -230,7 +230,6 @@ export function ReturnModal({
           </div>
         )}
 
-        {/* Return Bill items */}
         <div style={{ borderTop: "2px solid var(--line)", paddingTop: "14px", marginTop: "14px" }}>
           <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "10px", font: "700 12px var(--mono)", textTransform: "uppercase" }}>
             <span>Items Being Refunded ({returnCart.length})</span>
@@ -323,4 +322,3 @@ export function ReturnModal({
     </div>
   );
 }
-

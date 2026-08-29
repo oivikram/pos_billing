@@ -66,7 +66,6 @@ export async function POST(req: Request) {
       .join("");
 
     const totalNum = Math.abs(Number(total) || 0);
-    // Statutory Indian GST Reverse Calculation (5.0% FMCG/Grocery Slab: CGST 2.5% + SGST 2.5%)
     const gstRate = 0.05;
     const taxableSubtotal = totalNum / (1 + gstRate);
     const totalGstAmount = totalNum - taxableSubtotal;
@@ -114,17 +113,9 @@ export async function POST(req: Request) {
           <title>${documentTitle} - ${invoiceId}</title>
         </head>
         <body style="margin: 0; padding: 20px 10px; background-color: #edebe4; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; -webkit-font-smoothing: antialiased;">
-          
-          <!-- Outer Receipt Slip -->
           <div style="max-width: 410px; width: 100%; margin: 0 auto; background-color: #ffffff; border-radius: 4px; box-shadow: 0 8px 24px rgba(0,0,0,0.12); border: 1px solid #dcd7cb; overflow: hidden;">
-            
-            <!-- Top Serrated / Header Accent -->
             <div style="height: 6px; background: repeating-linear-gradient(90deg, #111827 0, #111827 10px, #c8db36 10px, #c8db36 20px);"></div>
-
-            <!-- Receipt Content -->
             <div style="padding: 24px 22px 20px;">
-              
-              <!-- Store Brand Title -->
               <div style="text-align: center;">
                 <div style="font-size: 23px; font-weight: 900; letter-spacing: 2px; color: #111827; text-transform: uppercase; font-family: 'Helvetica Neue', Arial, sans-serif; margin: 0;">
                   VIKRAM STORE
@@ -139,7 +130,6 @@ export async function POST(req: Request) {
                   GSTIN: 27AABCV1234F1Z5 · TEL: +91 8591704117
                 </div>
 
-                <!-- Document Type Badge -->
                 <div style="margin: 12px 0 8px;">
                   <span style="display: inline-block; padding: 4px 14px; background-color: ${isRefund ? "#fef2f2" : "#f4f3ec"}; border: 1px solid ${isRefund ? "#fca5a5" : "#d1d5db"}; color: ${isRefund ? "#b91c1c" : "#111827"}; font-size: 11px; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase; font-family: 'Courier New', Courier, monospace; border-radius: 2px;">
                     ${isRefund ? "★ CASH REFUND VOUCHER ★" : "★ RETAIL TAX INVOICE ★"}
@@ -147,10 +137,8 @@ export async function POST(req: Request) {
                 </div>
               </div>
 
-              <!-- Decorative Divider -->
               <div style="border-top: 2px dashed #9ca3af; margin: 14px 0 12px;"></div>
 
-              <!-- Invoice Meta Grid -->
               <table style="width: 100%; border-collapse: collapse; font-family: 'Courier New', Courier, monospace; font-size: 11px; color: #374151; line-height: 1.6;">
                 <tr>
                   <td style="color: #6b7280;">INVOICE NO:</td>
@@ -170,10 +158,8 @@ export async function POST(req: Request) {
                 </tr>
               </table>
 
-              <!-- Decorative Divider -->
               <div style="border-top: 2px dashed #9ca3af; margin: 12px 0 10px;"></div>
 
-              <!-- Items Table Header -->
               <table style="width: 100%; border-collapse: collapse;">
                 <thead>
                   <tr style="border-bottom: 1px solid #111827; font-family: 'Courier New', Courier, monospace; font-size: 10px; font-weight: 800; text-transform: uppercase; color: #111827;">
@@ -186,7 +172,6 @@ export async function POST(req: Request) {
                 </tbody>
               </table>
 
-              <!-- Subtotal & Tax Breakdown -->
               <div style="margin-top: 12px; padding-top: 8px; border-top: 1px dashed #d1d5db; font-family: 'Courier New', Courier, monospace; font-size: 11px; color: #4b5563; line-height: 1.6;">
                 <div style="display: flex; justify-content: space-between;">
                   <span>Total Items / Qty:</span>
@@ -209,7 +194,6 @@ export async function POST(req: Request) {
               ${splitBreakdownHtml}
               ${cashChangeHtml}
 
-              <!-- Highlighted Grand Total Box -->
               <div style="margin-top: 14px; padding: 14px 16px; background-color: ${isRefund ? "#fef2f2" : "#111827"}; border: 2px solid ${isRefund ? "#b91c1c" : "#111827"}; border-radius: 4px; color: #ffffff;">
                 <div style="display: flex; justify-content: space-between; align-items: center;">
                   <div>
@@ -226,10 +210,8 @@ export async function POST(req: Request) {
                 </div>
               </div>
 
-              <!-- Decorative Divider -->
               <div style="border-top: 2px dashed #9ca3af; margin: 18px 0 14px;"></div>
 
-              <!-- Barcode Graphic Simulation -->
               <div style="text-align: center; margin: 8px 0;">
                 <div style="font-family: 'Courier New', Courier, monospace; font-size: 18px; letter-spacing: 4px; font-weight: 900; color: #111827;">
                   ||| | | |||| | |||
@@ -239,7 +221,6 @@ export async function POST(req: Request) {
                 </div>
               </div>
 
-              <!-- Thermal Receipt Footer -->
               <div style="text-align: center; margin-top: 14px; font-size: 11px; color: #4b5563; line-height: 1.5;">
                 <div style="font-weight: 800; color: #111827; font-size: 12px; margin-bottom: 2px;">
                   *** THANK YOU FOR SHOPPING WITH US! ***
@@ -254,10 +235,7 @@ export async function POST(req: Request) {
               </div>
 
             </div>
-
-            <!-- Bottom Thermal Edge -->
             <div style="height: 6px; background: repeating-linear-gradient(90deg, #111827 0, #111827 10px, #c8db36 10px, #c8db36 20px);"></div>
-
           </div>
         </body>
       </html>
@@ -271,8 +249,6 @@ export async function POST(req: Request) {
       html: htmlContent,
     });
 
-    // If custom domain sending failed (e.g. domain pending verification in Resend),
-    // and recipient is the store owner, try fallback to onboarding@resend.dev
     if (result.error && fromEmail !== "onboarding@resend.dev") {
       result = await resend.emails.send({
         from: "Vikram Store <onboarding@resend.dev>",
@@ -306,5 +282,3 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: message }, { status: 500 });
   }
 }
-
-

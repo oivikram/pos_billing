@@ -74,7 +74,7 @@ button { cursor: pointer; }
 .bill-empty { display: flex; min-height: 205px; align-items: center; justify-content: center; flex-direction: column; text-align: center; color: #92958e; }
 .bill-empty > span { display: grid; width: 34px; height: 34px; place-items: center; border: 1px solid var(--olive); color: var(--olive); font-size: 22px; }
 .bill-empty strong { margin-top: 14px; font-size: 12px; }
-/* Remove default browser up/down number spinner arrows */
+
 input[type=number]::-webkit-inner-spin-button, 
 input[type=number]::-webkit-outer-spin-button { 
   -webkit-appearance: none; 
@@ -246,9 +246,6 @@ input[type=number] {
 .return-qty-btn:disabled { opacity: 0.3; cursor: not-allowed; background: #e8e6df; border-color: #d6d3ca; color: #a09d94; }
 .refund-text-neg { color: #a94c38 !important; font-weight: 700; }
 
-/* ==============================================================================
-   VIKRAM STORE - AUTHENTIC RETAIL STORE INVOICE STYLING
-   ============================================================================== */
 .store-invoice-paper {
   margin: 18px 0;
   padding: 24px;
@@ -643,6 +640,3 @@ input[type=number] {
     text-align: center;
   }
 }
-
-
-

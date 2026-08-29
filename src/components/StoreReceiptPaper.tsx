@@ -50,7 +50,6 @@ export function StoreReceiptPaper({
 
   const itemCount = items.reduce((sum, item) => sum + item.quantity, 0);
   const totalAmount = Math.abs(total);
-  // Real Indian GST Reverse Calculation (5.0% Grocery/FMCG Slab: CGST 2.5% + SGST 2.5%)
   const gstRate = 0.05;
   const taxableSubtotal = totalAmount / (1 + gstRate);
   const totalGstAmount = totalAmount - taxableSubtotal;
@@ -60,7 +59,6 @@ export function StoreReceiptPaper({
 
   return (
     <div className="store-invoice-paper">
-      {/* Brand Header */}
       <div className="store-invoice-header">
         <h1 className="store-brand-title">VIKRAM STORE</h1>
         <p className="store-brand-sub">Retail Supermarket & FMCG Store</p>
@@ -71,7 +69,6 @@ export function StoreReceiptPaper({
         </div>
       </div>
 
-      {/* Invoice Meta */}
       <div className="store-meta-grid">
         <div>
           <span>Invoice No:</span>
@@ -97,7 +94,6 @@ export function StoreReceiptPaper({
         )}
       </div>
 
-      {/* Itemized Table */}
       <div className="store-items-table-wrap">
         <table className="store-items-table">
           <thead>
@@ -136,7 +132,6 @@ export function StoreReceiptPaper({
         </table>
       </div>
 
-      {/* Pricing Summary */}
       <div className="store-summary-block">
         <div className="store-sum-row">
           <span>Total Items Count:</span>
@@ -160,7 +155,6 @@ export function StoreReceiptPaper({
           <b>{isRefund ? `-₹${totalAmount.toFixed(2)}` : `₹${totalAmount.toFixed(2)}`}</b>
         </div>
 
-        {/* Payment breakdown */}
         {method === "Split" && (
           <div className="store-tender-box">
             <div>
@@ -188,7 +182,6 @@ export function StoreReceiptPaper({
         )}
       </div>
 
-      {/* Store Footer & Barcode stamp */}
       <div className="store-invoice-footer">
         <p className="store-footer-policy">
           {isRefund
@@ -202,4 +195,3 @@ export function StoreReceiptPaper({
     </div>
   );
 }
-

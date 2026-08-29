@@ -4,7 +4,6 @@ import React, { FormEvent, startTransition, useEffect, useRef, useState } from "
 import { Line, Product, Sale } from "@/types/pos";
 import {
   isSupabaseConfigured,
-  syncSaleToSupabase,
   fetchSalesFromSupabase,
   fetchProductsFromSupabase,
   authenticateCashier,
@@ -51,7 +50,6 @@ export default function Home() {
   const barcode = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    // Clean up any historical local storage cache keys
     if (typeof window !== "undefined") {
       window.localStorage.removeItem("vikramstore-sales");
       window.localStorage.removeItem("counterpoint-sales");
@@ -73,7 +71,6 @@ export default function Home() {
       });
     }
 
-    // Load cloud products & sales exclusively from Supabase
     if (isSupabaseConfigured()) {
       fetchProductsFromSupabase().then((cloudProducts) => {
         if (cloudProducts && cloudProducts.length > 0) {

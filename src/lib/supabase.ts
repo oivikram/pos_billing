@@ -56,7 +56,6 @@ export interface DbShift {
   total_transactions: number;
 }
 
-// Sync single sale transaction to Supabase
 export async function syncSaleToSupabase(sale: {
   invoice: string;
   date: string;
@@ -105,7 +104,6 @@ export async function syncSaleToSupabase(sale: {
   }
 }
 
-// Fetch all sales transactions from Supabase
 export async function fetchSalesFromSupabase() {
   if (!supabase) return [];
 
@@ -139,7 +137,6 @@ export async function fetchSalesFromSupabase() {
   }
 }
 
-// Fetch all products / catalog from Supabase
 export async function fetchProductsFromSupabase() {
   if (!supabase) return [];
 
@@ -167,7 +164,6 @@ export async function fetchProductsFromSupabase() {
   }
 }
 
-// Sync shift closing statement to Supabase
 export async function syncShiftToSupabase(shift: DbShift) {
   if (!supabase) return { success: false, reason: "Supabase not configured" };
 
@@ -188,7 +184,6 @@ export async function syncShiftToSupabase(shift: DbShift) {
   }
 }
 
-// Authenticate cashier strictly via Supabase Auth email
 export async function authenticateCashier(identifier: string, pass: string) {
   const cleanEmail = identifier.trim().toLowerCase();
 
@@ -214,7 +209,6 @@ export async function authenticateCashier(identifier: string, pass: string) {
     }
   }
 
-  // Offline fallback only if Supabase is completely unconfigured
   if (cleanEmail === "vikramgirhe07@gmail.com" && pass.length >= 4) {
     return { success: true };
   }
@@ -223,5 +217,3 @@ export async function authenticateCashier(identifier: string, pass: string) {
     error: "Invalid credentials. Please log in with vikramgirhe07@gmail.com and your password.",
   };
 }
-
-
