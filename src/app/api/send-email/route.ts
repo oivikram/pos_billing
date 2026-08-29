@@ -168,7 +168,7 @@ export async function POST(req: Request) {
       </html>
     `;
 
-    const result = await resend.emails.send({
+    let result = await resend.emails.send({
       from: `Vikram Store <${fromEmail}>`,
       to: [to],
       replyTo: "vikramgirhe07@gmail.com",
@@ -176,9 +176,30 @@ export async function POST(req: Request) {
       html: htmlContent,
     });
 
+    // If custom domain sending failed (e.g. domain pending verification in Resend),
+    // and recipient is the store owner, try fallback to onboarding@resend.dev
+    if (result.error && fromEmail !== "onboarding@resend.dev") {
+      result = await resend.emails.send({
+        from: "Vikram Store <onboarding@resend.dev>",
+        to: [to],
+        replyTo: "vikramgirhe07@gmail.com",
+        subject: `${documentTitle}: ${invoiceId} - ₹${totalAmount} (Vikram Store)`,
+        html: htmlContent,
+      });
+    }
+
     if (result.error) {
+      let errorMessage = result.error.message || "Resend email delivery failed.";
+      if (
+        errorMessage.toLowerCase().includes("domain") ||
+        errorMessage.toLowerCase().includes("not verified") ||
+        errorMessage.toLowerCase().includes("testing")
+      ) {
+        errorMessage =
+          "Domain 'vikramstore.shop' is pending verification on Resend (resend.com/domains). In test mode, emails can only be sent to your account email (vikramgirhe07@gmail.com) until DNS records are verified.";
+      }
       return NextResponse.json(
-        { error: result.error.message || "Resend email delivery failed." },
+        { error: errorMessage },
         { status: 400 }
       );
     }
@@ -190,4 +211,5 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: message }, { status: 500 });
   }
 }
+
 
