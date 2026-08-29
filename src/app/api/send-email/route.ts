@@ -66,8 +66,13 @@ export async function POST(req: Request) {
       .join("");
 
     const totalNum = Math.abs(Number(total) || 0);
-    const taxableValue = (totalNum / 1.18).toFixed(2);
-    const gstHalf = ((totalNum - Number(taxableValue)) / 2).toFixed(2);
+    // Statutory Indian GST Reverse Calculation (5.0% FMCG/Grocery Slab: CGST 2.5% + SGST 2.5%)
+    const gstRate = 0.05;
+    const taxableSubtotal = totalNum / (1 + gstRate);
+    const totalGstAmount = totalNum - taxableSubtotal;
+    const cgst = (totalGstAmount / 2).toFixed(2);
+    const sgst = (totalGstAmount / 2).toFixed(2);
+    const taxableValue = taxableSubtotal.toFixed(2);
     const totalItemsCount = (items || []).reduce(
       (sum: number, item: { quantity: number }) => sum + (Number(item.quantity) || 1),
       0
@@ -188,16 +193,16 @@ export async function POST(req: Request) {
                   <span>${items.length} items (${totalItemsCount} pcs)</span>
                 </div>
                 <div style="display: flex; justify-content: space-between;">
-                  <span>Taxable Amount:</span>
+                  <span>Taxable Subtotal:</span>
                   <span>₹${taxableValue}</span>
                 </div>
                 <div style="display: flex; justify-content: space-between;">
-                  <span>CGST (9.0%):</span>
-                  <span>₹${gstHalf}</span>
+                  <span>CGST (2.5%):</span>
+                  <span>₹${cgst}</span>
                 </div>
                 <div style="display: flex; justify-content: space-between;">
-                  <span>SGST (9.0%):</span>
-                  <span>₹${gstHalf}</span>
+                  <span>SGST (2.5%):</span>
+                  <span>₹${sgst}</span>
                 </div>
               </div>
 
@@ -227,7 +232,7 @@ export async function POST(req: Request) {
               <!-- Barcode Graphic Simulation -->
               <div style="text-align: center; margin: 8px 0;">
                 <div style="font-family: 'Courier New', Courier, monospace; font-size: 18px; letter-spacing: 4px; font-weight: 900; color: #111827;">
-                  ||| | | |||| | ||| || |||| | || |||
+                  ||| | | |||| | |||
                 </div>
                 <div style="font-family: 'Courier New', Courier, monospace; font-size: 10px; letter-spacing: 2px; color: #6b7280; margin-top: 4px;">
                   *${invoiceId}*

@@ -50,8 +50,13 @@ export function StoreReceiptPaper({
 
   const itemCount = items.reduce((sum, item) => sum + item.quantity, 0);
   const totalAmount = Math.abs(total);
-  const cgst = (totalAmount * 0.025).toFixed(2);
-  const sgst = (totalAmount * 0.025).toFixed(2);
+  // Real Indian GST Reverse Calculation (5.0% Grocery/FMCG Slab: CGST 2.5% + SGST 2.5%)
+  const gstRate = 0.05;
+  const taxableSubtotal = totalAmount / (1 + gstRate);
+  const totalGstAmount = totalAmount - taxableSubtotal;
+  const cgst = (totalGstAmount / 2).toFixed(2);
+  const sgst = (totalGstAmount / 2).toFixed(2);
+  const taxableFormatted = taxableSubtotal.toFixed(2);
 
   return (
     <div className="store-invoice-paper">
@@ -60,7 +65,7 @@ export function StoreReceiptPaper({
         <h1 className="store-brand-title">VIKRAM STORE</h1>
         <p className="store-brand-sub">Retail Supermarket & FMCG Store</p>
         <p className="store-brand-domain">www.vikramstore.shop · billing@vikramstore.shop</p>
-        <p className="store-tax-ids">GSTIN: 27AABCV1234F1Z5 · TEL: +91 8591704117 · FSSAI Lic: 11521012000452</p>
+        <p className="store-tax-ids">GSTIN: 27AABCV1234F1Z5 · FSSAI Lic: 11521012000452</p>
         <div className="store-invoice-type">
           {isRefund ? "★ CASH REFUND VOUCHER ★" : "★ TAX INVOICE / RETAIL CASH MEMO ★"}
         </div>
@@ -139,7 +144,7 @@ export function StoreReceiptPaper({
         </div>
         <div className="store-sum-row">
           <span>Taxable Subtotal:</span>
-          <span>₹{(totalAmount * 0.95).toFixed(2)}</span>
+          <span>₹{taxableFormatted}</span>
         </div>
         <div className="store-sum-row">
           <span>CGST (2.5%):</span>
