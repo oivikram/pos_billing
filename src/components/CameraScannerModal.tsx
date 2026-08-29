@@ -117,17 +117,16 @@ export function CameraScannerModal({
           },
           aspectRatio: 1.77,
           disableFlip: true,
-        };
-
-        const cameraConfig = {
-          facingMode: "environment",
-          focusMode: "continuous",
-          width: { min: 640, ideal: 1280 },
-          height: { min: 480, ideal: 720 },
+          videoConstraints: {
+            facingMode: "environment",
+            focusMode: "continuous",
+            width: { min: 640, ideal: 1280 },
+            height: { min: 480, ideal: 720 },
+          },
         };
 
         await html5QrCode.start(
-          cameraConfig,
+          { facingMode: "environment" },
           config,
           (decodedText) => {
             if (isProcessingRef.current) return;
