@@ -25,19 +25,24 @@ export async function POST(req: Request) {
       );
     }
 
-    const apiKey = process.env.RESEND_API_KEY;
+    const apiKey =
+      process.env.RESEND_API_KEY ||
+      process.env.SEND_API_KEY;
     if (!apiKey) {
       return NextResponse.json(
         {
           error:
-            "RESEND_API_KEY is not configured in .env.local. Please add RESEND_API_KEY=re_... to your environment.",
+            "RESEND_API_KEY is not configured. Please add RESEND_API_KEY=re_... to your environment.",
         },
         { status: 500 }
       );
     }
 
     const resend = new Resend(apiKey);
-    const fromEmail = process.env.RESEND_FROM_EMAIL || "onboarding@resend.dev";
+    const fromEmail =
+      process.env.RESEND_FROM_EMAIL ||
+      process.env.RESEND_FROM_EMAI ||
+      "billing@vikramstore.shop";
 
     const formattedDate = date
       ? new Date(date).toLocaleString("en-IN")
