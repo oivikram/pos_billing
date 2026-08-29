@@ -348,34 +348,12 @@ export function PosBilling({
                   </small>
                 </div>
 
-                <div
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: "4px",
-                    background: "#f7f6f0",
-                    padding: "3px 6px",
-                    borderRadius: "4px",
-                    border: "1px solid var(--line)",
-                  }}
-                >
+                <div className="qty-stepper-box">
                   <button
                     type="button"
-                    style={{
-                      width: "26px",
-                      height: "26px",
-                      borderRadius: "3px",
-                      border: "1px solid #b5b7ae",
-                      background: "var(--white)",
-                      fontWeight: 800,
-                      cursor: "pointer",
-                      fontSize: "14px",
-                      display: "grid",
-                      placeItems: "center",
-                      color: "var(--ink)",
-                    }}
+                    className="qty-stepper-btn"
                     onClick={() => updateLineQuantity(line.barcode, -1)}
-                    title="Decrease quantity"
+                    title="Decrease quantity (-1)"
                     aria-label="Decrease quantity"
                   >
                     -
@@ -383,6 +361,7 @@ export function PosBilling({
                   <input
                     type="number"
                     min="1"
+                    className="qty-stepper-input"
                     value={line.quantity}
                     onChange={(e) => {
                       const val = parseInt(e.target.value, 10);
@@ -396,57 +375,25 @@ export function PosBilling({
                         );
                       }
                     }}
-                    style={{
-                      width: "40px",
-                      height: "26px",
-                      textAlign: "center",
-                      font: "700 13px var(--mono)",
-                      padding: "0",
-                      border: "1px solid #b5b7ae",
-                      borderRadius: "3px",
-                      background: "var(--white)",
-                      color: "var(--ink)",
-                      outline: "none",
-                    }}
                   />
                   <button
                     type="button"
-                    style={{
-                      width: "26px",
-                      height: "26px",
-                      borderRadius: "3px",
-                      border: "1px solid #b5b7ae",
-                      background: "var(--white)",
-                      fontWeight: 800,
-                      cursor: "pointer",
-                      fontSize: "14px",
-                      display: "grid",
-                      placeItems: "center",
-                      color: "var(--ink)",
-                    }}
+                    className="qty-stepper-btn"
                     onClick={() => updateLineQuantity(line.barcode, 1)}
-                    title="Increase quantity"
+                    title="Increase quantity (+1)"
                     aria-label="Increase quantity"
                   >
                     +
                   </button>
                 </div>
 
-                <b style={{ minWidth: "75px", textAlign: "right", font: "700 13px var(--mono)" }}>
+                <b style={{ minWidth: "75px", textAlign: "right" }}>
                   ₹{(line.price * line.quantity).toFixed(2)}
                 </b>
 
                 <button
                   type="button"
-                  style={{
-                    border: 0,
-                    background: "transparent",
-                    color: "#a94c38",
-                    fontSize: "20px",
-                    fontWeight: 700,
-                    cursor: "pointer",
-                    padding: "0 6px",
-                  }}
+                  className="delete-line-icon-btn"
                   onClick={() => setLines(lines.filter((item) => item.barcode !== line.barcode))}
                   title="Remove item from bill"
                   aria-label="Remove item"
