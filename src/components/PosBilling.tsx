@@ -341,16 +341,115 @@ export function PosBilling({
           {lines.length ? (
             lines.map((line) => (
               <div className="bill-line" key={line.barcode}>
-                <div>
+                <div style={{ flex: 1, minWidth: 0, paddingRight: "8px" }}>
                   <strong>{line.name}</strong>
                   <small>
-                    {line.barcode} · Qty {line.quantity}
+                    {line.barcode} · ₹{line.price.toFixed(2)} / unit
                   </small>
                 </div>
-                <b>₹{(line.price * line.quantity).toFixed(2)}</b>
+
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "4px",
+                    background: "#f7f6f0",
+                    padding: "3px 6px",
+                    borderRadius: "4px",
+                    border: "1px solid var(--line)",
+                  }}
+                >
+                  <button
+                    type="button"
+                    style={{
+                      width: "26px",
+                      height: "26px",
+                      borderRadius: "3px",
+                      border: "1px solid #b5b7ae",
+                      background: "var(--white)",
+                      fontWeight: 800,
+                      cursor: "pointer",
+                      fontSize: "14px",
+                      display: "grid",
+                      placeItems: "center",
+                      color: "var(--ink)",
+                    }}
+                    onClick={() => updateLineQuantity(line.barcode, -1)}
+                    title="Decrease quantity"
+                    aria-label="Decrease quantity"
+                  >
+                    -
+                  </button>
+                  <input
+                    type="number"
+                    min="1"
+                    value={line.quantity}
+                    onChange={(e) => {
+                      const val = parseInt(e.target.value, 10);
+                      if (isNaN(val) || val <= 0) {
+                        setLines((current) => current.filter((item) => item.barcode !== line.barcode));
+                      } else {
+                        setLines((current) =>
+                          current.map((item) =>
+                            item.barcode === line.barcode ? { ...item, quantity: val } : item
+                          )
+                        );
+                      }
+                    }}
+                    style={{
+                      width: "40px",
+                      height: "26px",
+                      textAlign: "center",
+                      font: "700 13px var(--mono)",
+                      padding: "0",
+                      border: "1px solid #b5b7ae",
+                      borderRadius: "3px",
+                      background: "var(--white)",
+                      color: "var(--ink)",
+                      outline: "none",
+                    }}
+                  />
+                  <button
+                    type="button"
+                    style={{
+                      width: "26px",
+                      height: "26px",
+                      borderRadius: "3px",
+                      border: "1px solid #b5b7ae",
+                      background: "var(--white)",
+                      fontWeight: 800,
+                      cursor: "pointer",
+                      fontSize: "14px",
+                      display: "grid",
+                      placeItems: "center",
+                      color: "var(--ink)",
+                    }}
+                    onClick={() => updateLineQuantity(line.barcode, 1)}
+                    title="Increase quantity"
+                    aria-label="Increase quantity"
+                  >
+                    +
+                  </button>
+                </div>
+
+                <b style={{ minWidth: "75px", textAlign: "right", font: "700 13px var(--mono)" }}>
+                  ₹{(line.price * line.quantity).toFixed(2)}
+                </b>
+
                 <button
                   type="button"
+                  style={{
+                    border: 0,
+                    background: "transparent",
+                    color: "#a94c38",
+                    fontSize: "20px",
+                    fontWeight: 700,
+                    cursor: "pointer",
+                    padding: "0 6px",
+                  }}
                   onClick={() => setLines(lines.filter((item) => item.barcode !== line.barcode))}
+                  title="Remove item from bill"
+                  aria-label="Remove item"
                 >
                   ×
                 </button>

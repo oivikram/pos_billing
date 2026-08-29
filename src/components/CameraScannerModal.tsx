@@ -95,19 +95,16 @@ export function CameraScannerModal({
             Html5QrcodeSupportedFormats.UPC_A,
             Html5QrcodeSupportedFormats.UPC_E,
             Html5QrcodeSupportedFormats.CODE_128,
-            Html5QrcodeSupportedFormats.CODE_39,
-            Html5QrcodeSupportedFormats.CODE_93,
-            Html5QrcodeSupportedFormats.ITF,
             Html5QrcodeSupportedFormats.QR_CODE,
           ],
           verbose: false,
         });
         scannerRef.current = html5QrCode;
 
-        // Reliable 1D & 2D barcode scanning config
+        // Reliable retail 1D & 2D barcode scanning config
         const config = {
-          fps: 15,
-          qrbox: { width: 260, height: 130 },
+          fps: 12,
+          qrbox: { width: 260, height: 120 },
           aspectRatio: 1.77,
         };
 
@@ -116,23 +113,29 @@ export function CameraScannerModal({
           config,
           (decodedText) => {
             if (isProcessingRef.current) return;
-            isProcessingRef.current = true;
 
+            const clean = decodedText.trim();
+            // Discard invalid / noisy string reads (must be at least 4 chars and valid characters)
+            if (!clean || clean.length < 4 || !/^[\w\-\.\/:]+$/i.test(clean)) {
+              return;
+            }
+
+            isProcessingRef.current = true;
             playBeepSound();
-            const result = onScanRef.current(decodedText);
+            const result = onScanRef.current(clean);
 
             if (result.success) {
               setLastItem({
                 name: result.name || "Product",
                 price: result.price || 0,
-                barcode: decodedText,
+                barcode: clean,
                 success: true,
               });
             } else {
               setLastItem({
-                name: "Unknown Product",
+                name: `Unregistered Item (${clean})`,
                 price: 0,
-                barcode: decodedText,
+                barcode: clean,
                 success: false,
               });
             }

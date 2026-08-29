@@ -75,10 +75,10 @@ button { cursor: pointer; }
 .bill-empty > span { display: grid; width: 34px; height: 34px; place-items: center; border: 1px solid var(--olive); color: var(--olive); font-size: 22px; }
 .bill-empty strong { margin-top: 14px; font-size: 12px; }
 .bill-empty p { font-size: 11px; margin: 4px 0 0; }
-.bill-line { display: grid; grid-template-columns: 1fr auto 28px; gap: 12px; align-items: center; padding: 15px 20px; border-bottom: 1px solid #ece9e0; }
-.bill-line strong { font-size: 12px; }
-.bill-line small { display: block; margin-top: 5px; color: #92958e; font: 10px var(--mono); }
-.bill-line button { border: 0; background: none; color: #a94c38; font-size: 20px; }
+.bill-line { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 12px 16px; border-bottom: 1px solid #ece9e0; }
+.bill-line strong { font-size: 13px; color: var(--ink); display: block; }
+.bill-line small { display: block; margin-top: 2px; color: #7f8379; font: 10px var(--mono); }
+.bill-line b { font: 700 13px var(--mono); color: var(--ink); }
 
 .bill-summary { padding: 21px; background: var(--ink); color: var(--paper); }
 .bill-summary > small { font: 11px var(--mono); text-transform: uppercase; letter-spacing: .1em; }
