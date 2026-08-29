@@ -96,33 +96,19 @@ export function CameraScannerModal({
             Html5QrcodeSupportedFormats.UPC_E,
             Html5QrcodeSupportedFormats.CODE_128,
             Html5QrcodeSupportedFormats.CODE_39,
+            Html5QrcodeSupportedFormats.CODE_93,
+            Html5QrcodeSupportedFormats.ITF,
             Html5QrcodeSupportedFormats.QR_CODE,
           ],
           verbose: false,
-          experimentalFeatures: {
-            useBarCodeDetectorIfSupported: true, // Uses native Google MLKit / Apple Vision hardware acceleration for instant decoding
-          },
         });
         scannerRef.current = html5QrCode;
 
-        // High-performance scanning config (25 FPS, wider scan zone)
+        // Reliable 1D & 2D barcode scanning config
         const config = {
-          fps: 25,
-          qrbox: (viewfinderWidth: number, viewfinderHeight: number) => {
-            const minEdge = Math.min(viewfinderWidth, viewfinderHeight);
-            return {
-              width: Math.min(320, Math.floor(viewfinderWidth * 0.88)),
-              height: Math.min(160, Math.max(90, Math.floor(minEdge * 0.65))),
-            };
-          },
+          fps: 15,
+          qrbox: { width: 260, height: 130 },
           aspectRatio: 1.77,
-          disableFlip: true,
-          videoConstraints: {
-            facingMode: "environment",
-            focusMode: "continuous",
-            width: { min: 640, ideal: 1280 },
-            height: { min: 480, ideal: 720 },
-          },
         };
 
         await html5QrCode.start(
@@ -154,7 +140,7 @@ export function CameraScannerModal({
             setIsPaused(true);
           },
           () => {
-            // fast frame drop
+            // scanning frame
           }
         );
       } catch (err: unknown) {
