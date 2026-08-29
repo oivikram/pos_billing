@@ -91,15 +91,24 @@ export function CameraScannerModal({
             Html5QrcodeSupportedFormats.UPC_A,
             Html5QrcodeSupportedFormats.UPC_E,
             Html5QrcodeSupportedFormats.CODE_128,
+            Html5QrcodeSupportedFormats.CODE_39,
             Html5QrcodeSupportedFormats.QR_CODE,
           ],
           verbose: false,
+          experimentalFeatures: {
+            useBarCodeDetectorIfSupported: true,
+          },
         });
         scannerRef.current = html5QrCode;
 
         const config = {
-          fps: 12,
-          qrbox: { width: 260, height: 120 },
+          fps: 20,
+          qrbox: (viewfinderWidth: number, viewfinderHeight: number) => {
+            return {
+              width: Math.max(200, Math.floor(viewfinderWidth * 0.88)),
+              height: Math.max(120, Math.floor(viewfinderHeight * 0.70)),
+            };
+          },
           aspectRatio: 1.77,
         };
 
@@ -260,10 +269,10 @@ export function CameraScannerModal({
             >
               <div
                 style={{
-                  width: "200px",
-                  height: "75px",
+                  width: "82%",
+                  height: "68%",
                   border: isPaused ? "2px solid #34a853" : "2px dashed #d6f32f",
-                  borderRadius: "4px",
+                  borderRadius: "6px",
                   background: isPaused ? "rgba(52, 168, 83, 0.15)" : "transparent",
                   transition: "all 0.2s ease",
                 }}
